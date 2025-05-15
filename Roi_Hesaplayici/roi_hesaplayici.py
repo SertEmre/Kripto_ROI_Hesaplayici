@@ -1,4 +1,7 @@
 import pandas as pd
+import os 
+
+dosya_ismi = "yatirim_ozeti.csv"
 
 veriler = {
     "Kripto ismi": [],
@@ -10,12 +13,19 @@ veriler = {
     "Yatırım tarihi": []
 }
 
+def sayi_kontrol(istek_giris):
+    while True:
+        try:
+            return float(input(istek_giris))
+        except ValueError:
+            print("Lütfen sadece sayı giriniz!")
+
 def veri_al():
     tarih = input("Yatırım tarihinizi giriniz (GG/AA/YYYY): ")
     kripto_ismi = input("Kripto ismi: ")
-    yatirim = float(input("Toplam yatırımınız ne kadar?: "))
-    giris_fiyati = float(input("Giriş fiyatınızı giriniz: "))
-    cikis_fiyati = float(input("Çıkış fiyatınızı giriniz: "))
+    yatirim = sayi_kontrol("Toplam yatırımınız ne kadar?: ")
+    giris_fiyati = sayi_kontrol("Giriş fiyatınızı giriniz: ")
+    cikis_fiyati = sayi_kontrol("Çıkış fiyatınızı giriniz: ")
 
     kazanc = ((cikis_fiyati - giris_fiyati) / giris_fiyati) * yatirim
     roi = (kazanc / yatirim) * 100
@@ -29,7 +39,17 @@ def veri_al():
     veriler["Yatırım tarihi"].append(tarih)
     print("Verileriniz eklendi!\n")
 
-veri_al()
+# Hali hazırda dosya varsa yüklemek için
+if os.path.exists(dosya_ismi) and os.path.getsize(dosya_ismi) > 0:
+    df = pd.read_csv(dosya_ismi)
+
+    for col in veriler.keys():
+        veriler[col].extend(df[col].tolist())
+
+    print("Geçmiş yatırım verileri yüklendi:")
+    print(df)
+else:
+    print("Geçmiş yatırım verisi bulunamadı veya dosya içeriği boş.")
 
 while True:
     devam = input("Yeni bir kripto girişi eklemek ister misiniz? (e/h): ").lower()
