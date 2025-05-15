@@ -38,5 +38,12 @@ while True:
 df = pd.DataFrame(veriler)
 print(df)
 
+toplam_yatirim = df["Toplam yatırım"].sum()
+toplam_kazanc = df["Kazanç"].sum()
+
+print(f"\nToplam Yatırım: {toplam_yatirim} ")
+print(f"Toplam Kazanç: {toplam_kazanc} ")
+print(f"Genel ROI: {round((toplam_kazanc / toplam_yatirim) * 100, 2)} %")
+
 df.to_csv("yatirim_ozeti.csv", index=False)
 print("\nVeriler 'yatirim_ozeti.csv' dosyasına kaydedildi.")
