@@ -52,7 +52,7 @@ else:
     print("Geçmiş yatırım verisi bulunamadı veya dosya içeriği boş.")
 
 while True:
-    devam = input("Yeni bir kripto girişi eklemek ister misiniz? (e/h): ").lower()
+    devam = input("Yeni bir kripto girişi eklemek ister misiniz? (Evet:'e'/Hayır:'h'): ").lower()
     if devam == 'e':
         veri_al()
     else:
