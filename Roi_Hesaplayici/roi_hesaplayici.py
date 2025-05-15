@@ -37,3 +37,6 @@ while True:
 
 df = pd.DataFrame(veriler)
 print(df)
+
+df.to_csv("yatirim_ozeti.csv", index=False)
+print("\nVeriler 'yatirim_ozeti.csv' dosyasına kaydedildi.")
