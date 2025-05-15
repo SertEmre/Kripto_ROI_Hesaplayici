@@ -20,6 +20,8 @@ def sayi_kontrol(istek_giris):
         except ValueError:
             print("Lütfen sadece sayı giriniz!")
 
+
+
 def veri_al():
     tarih = input("Yatırım tarihinizi giriniz (GG/AA/YYYY): ")
     kripto_ismi = input("Kripto ismi: ")
