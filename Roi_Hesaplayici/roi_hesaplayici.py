@@ -6,10 +6,12 @@ veriler = {
     "Giriş fiyatı": [],
     "Çıkış fiyatı": [],
     "Kazanç": [],
-    "ROI ": []
+    "ROI ": [],
+    "Yatırım tarihi": []
 }
 
 def veri_al():
+    tarih = input("Yatırım tarihinizi giriniz (GG/AA/YYYY): ")
     kripto_ismi = input("Kripto ismi: ")
     yatirim = float(input("Toplam yatırımınız ne kadar?: "))
     giris_fiyati = float(input("Giriş fiyatınızı giriniz: "))
@@ -24,6 +26,7 @@ def veri_al():
     veriler["Çıkış fiyatı"].append(cikis_fiyati)
     veriler["Kazanç"].append(round(kazanc, 2))
     veriler["ROI "].append(round(roi, 2))
+    veriler["Yatırım tarihi"].append(tarih)
     print("Verileriniz eklendi!\n")
 
 veri_al()
