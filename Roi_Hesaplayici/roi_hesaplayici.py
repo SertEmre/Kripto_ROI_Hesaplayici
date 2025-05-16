@@ -90,3 +90,12 @@ plt.ylabel("ROI")
 plt.xticks(rotation=15)
 plt.tight_layout()
 plt.show()
+
+#Yatırım başına kar/zarar yüzdesi
+plt.bar(df["Kripto ismi"], df["ROI "], color=['green' if roi >= 0 else 'red' for roi in df["ROI "]])
+plt.title("Yatırım Başına Kar/Zarar Yüzdesi")
+plt.xlabel("Kripto İsmi")
+plt.ylabel("Kar/Zarar (%)")
+plt.xticks(rotation=15)
+plt.tight_layout()
+plt.show()
