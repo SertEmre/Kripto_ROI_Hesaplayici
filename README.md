@@ -9,3 +9,8 @@ Geçmiş yatırımlarınızı CSV dosyasında saklar, yeni yatırımlar eklemeni
 - Yeni yatırımlar eklenebilir ve kaydedilir.
 - Toplam yatırım, toplam kazanç ve genel ROI hesaplar.
 - Verileri `yatirim_ozeti.csv` dosyasına kaydeder.
+
+Sorun Çözümleri
+Rebase ile Commit Temizliği yaptım
+- Problemi: Yinelenen commit'ler (808b761 ve f8cfe0d)
+- Çözüm: `git rebase -i` ile interaktif düzenlemede bulundum ve sonuç olarak daha temiz bir commint geçmişi görünümü kazandırdım.
