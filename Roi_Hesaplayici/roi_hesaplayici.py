@@ -1,5 +1,6 @@
 import pandas as pd
 import os 
+import matplotlib.pyplot as plt
 
 dosya_ismi = "yatirim_ozeti.csv"
 
@@ -70,3 +71,22 @@ print(f"Genel ROI: {round((toplam_kazanc / toplam_yatirim) * 100, 2)} %")
 
 df.to_csv("yatirim_ozeti.csv", index=False)
 print("\nVeriler 'yatirim_ozeti.csv' dosyasına kaydedildi.")
+
+#Yatırıma göre grafik
+plt.plot(df["Yatırım tarihi"], df["ROI "], marker='o', color='gold')
+plt.title("Kasa ROI Değişim Grafiği")
+plt.xlabel("Yatırım Tarihi")
+plt.ylabel("ROI")
+plt.xticks(rotation=15) 
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+# Kriptoya göre grafik 
+plt.bar(df["Kripto ismi"], df["ROI "], color='orange')
+plt.title("Kriptoya Göre ROI Dağılımı")
+plt.xlabel("Kripto İsmi")
+plt.ylabel("ROI")
+plt.xticks(rotation=15)
+plt.tight_layout()
+plt.show()
