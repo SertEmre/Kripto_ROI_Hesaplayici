@@ -82,15 +82,6 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-# Kriptoya göre grafik 
-plt.bar(df["Kripto ismi"], df["ROI "], color='orange')
-plt.title("Kriptoya Göre ROI Dağılımı")
-plt.xlabel("Kripto İsmi")
-plt.ylabel("ROI")
-plt.xticks(rotation=15)
-plt.tight_layout()
-plt.show()
-
 #Yatırım başına kar/zarar yüzdesi
 plt.bar(df["Kripto ismi"], df["ROI "], color=['green' if roi >= 0 else 'red' for roi in df["ROI "]])
 plt.title("Yatırım Başına Kar/Zarar Yüzdesi")
