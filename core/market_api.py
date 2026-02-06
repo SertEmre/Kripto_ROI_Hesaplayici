@@ -1,7 +1,7 @@
 import yfinance as yf
 import streamlit as st
 
-@st.cache_data(ttl=60) # 60 saniyede bir veriyi önbelleğe alır (Hız için)
+@st.cache_data(ttl=60)
 def anlik_fiyatlari_getir(sembol_listesi):
     """Listelenen coinlerin anlık fiyatını sözlük olarak döner."""
     if not sembol_listesi:
@@ -25,3 +25,14 @@ def anlik_fiyatlari_getir(sembol_listesi):
         st.error(f"API Hatası: {e}")
     
     return fiyatlar
+
+@st.cache_data(ttl=3600) 
+def gecmis_verileri_getir(sembol, periyot="1y"):
+    """Seçilen coinin geçmiş OHLC (Open, High, Low, Close) verilerini getirir."""
+    try:
+        ticker = yf.Ticker(sembol)
+        history = ticker.history(period=periyot)
+        return history
+    except Exception as e:
+        st.error(f"Geçmiş veri hatası: {e}")
+        return None
