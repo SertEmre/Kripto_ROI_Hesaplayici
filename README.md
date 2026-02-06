@@ -1,16 +1,28 @@
-Kripto ROI Hesaplayıcı
+# Kripto Yatırım Analiz Paneli 
 
-Bu Python programı, kripto para yatırımlarınızın kazanç ve ROI oranlarını hesaplamanızı sağlar.  
-Geçmiş yatırımlarınızı CSV dosyasında saklar, yeni yatırımlar eklemenize izin verir ve genel yatırım özetinizi gösterir.
+Bu proje, terminal tabanlı basit hesaplamalardan; canlı verilerle çalışan, interaktif ve modern bir web uygulamasına dönüştürülmüştür. Python ve Streamlit kullanılarak geliştirilmiştir.
 
-Özellikler
-- Kullanıcıdan yatırım verilerini güvenli şekilde alır (sadece sayısal değer kabul eder).
-- Geçmiş yatırımları dosyadan okuyup yükler.
-- Yeni yatırımlar eklenebilir ve kaydedilir.
-- Toplam yatırım, toplam kazanç ve genel ROI hesaplar.
-- Verileri `yatirim_ozeti.csv` dosyasına kaydeder.
+## Özellikler
 
-Sorun Çözümleri
-Rebase ile Commit Temizliği yaptım
-- Problemi: Yinelenen commit'ler (808b761 ve f8cfe0d)
-- Çözüm: `git rebase -i` ile interaktif düzenlemede bulundum ve sonuç olarak daha temiz bir commint geçmişi görünümü kazandırdım.
+- **Canlı Veri Takibi:** Yahoo Finance API üzerinden anlık kripto fiyatları.
+- **ROI Hesaplama:** Yatırımın anlık değerini ve net kar/zarar oranını hesaplar.
+- **Görselleştirme:** Son 1 yıllık fiyat değişimini interaktif grafiklerle sunar.
+- **Modern Arayüz:** Terminal yerine kullanıcı dostu Web UI.
+
+## Kullanılan Teknolojiler
+
+- **Python 3.x**
+- **Streamlit** (Web Arayüzü için)
+- **yfinance** (Finansal Veriler için)
+- **Pandas** (Veri Analizi için)
+
+## Kurulum ve Çalıştırma
+
+Projeyi bilgisayarınızda çalıştırmak için terminale şu komutları girin:
+
+```bash
+# Gerekli kütüphaneleri yükleyin
+pip install streamlit yfinance pandas
+
+# Uygulamayı başlatın
+python -m streamlit run app.py
