@@ -2,9 +2,13 @@ import streamlit as st
 import datetime
 from core.data_manager import veri_ekle
 
-st.set_page_config(page_title="Yatırım Ekle", page_icon="➕")
+if 'kullanici' not in st.session_state or st.session_state['kullanici'] is None:
+    st.warning("Lütfen önce giriş yapın.")
+    st.stop()
 
-st.header("➕ Yeni Yatırım Ekle")
+st.set_page_config(page_title="Yatırım Ekle")
+
+st.header("Yeni Yatırım Ekle")
 
 with st.form("ekle_formu"):
     col1, col2 = st.columns(2)
@@ -20,7 +24,8 @@ with st.form("ekle_formu"):
 
     if submit:
         if miktar > 0:
-            veri_ekle(sembol, miktar, maliyet, tarih)
+            # DİKKAT: Veritabanına kaydederken en başa 'kullanici' bilgisini ekledik
+            veri_ekle(st.session_state['kullanici'], sembol, miktar, maliyet, str(tarih))
             st.success(f"{miktar} adet {sembol} başarıyla eklendi!")
         else:
             st.warning("Lütfen miktarı giriniz.")

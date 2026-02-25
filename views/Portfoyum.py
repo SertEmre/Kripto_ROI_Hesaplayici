@@ -5,11 +5,13 @@ import plotly.graph_objects as go
 from core.data_manager import verileri_yukle, verileri_sifirla
 from core.market_api import anlik_fiyatlari_getir, gecmis_verileri_getir
 
-st.set_page_config(page_title="Portföy Analizi", page_icon="📈", layout="wide")
+if 'kullanici' not in st.session_state or st.session_state['kullanici'] is None:
+    st.warning("Lütfen önce giriş yapın.")
+    st.stop()
 
-st.title("📊 Profesyonel Portföy Analizi")
+st.title("Profesyonel Portföy Analizi")
 
-df = verileri_yukle()
+df = verileri_yukle(st.session_state['kullanici'])
 
 if not df.empty:
     with st.spinner('Piyasa verileri işleniyor...'):
@@ -29,42 +31,34 @@ if not df.empty:
     genel_roi = (toplam_kar / toplam_maliyet) * 100 if toplam_maliyet > 0 else 0
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Toplam Varlık", f"${toplam_portfoy:,.2f}", help="Cüzdanındaki toplam para")
-    col2.metric("Toplam Maliyet", f"${toplam_maliyet:,.2f}", help="Cebinden çıkan para")
+    col1.metric("Toplam Varlık", f"${toplam_portfoy:,.2f}")
+    col2.metric("Toplam Maliyet", f"${toplam_maliyet:,.2f}")
     col3.metric("Net Kar/Zarar", f"${toplam_kar:,.2f}", delta_color="normal")
     col4.metric("Genel ROI", f"%{genel_roi:.2f}", delta=f"{genel_roi:.2f}%")
 
     st.markdown("---")
 
-    c1, c2 = st.columns([2, 1]) 
+    c1, c2 = st.columns([2, 1])
 
     with c1:
-        st.subheader("📈 Varlık Bazlı Kâr/Zarar Durumu")
+        st.subheader("Varlık Bazlı Kâr/Zarar Durumu")
         fig_bar = px.bar(
-            df, 
-            x="Sembol", 
-            y="Kar_Zarar",
-            color="Kar_Zarar",
-            color_continuous_scale=["red", "green"], # Zarar kırmızı, kar yeşil
-            title="Hangi Coinden Ne Kadar Kâr/Zarardasın?",
-            text_auto='.2s'
+            df, x="Sembol", y="Kar_Zarar", color="Kar_Zarar",
+            color_continuous_scale=["red", "green"],
+            title="Hangi Coinden Ne Kadar Kâr/Zarardasın?", text_auto='.2s'
         )
         st.plotly_chart(fig_bar, use_container_width=True)
 
     with c2:
-        st.subheader(" Portföy Dağılımı")
-        # Plotly Pie Chart (Pasta Grafik)
+        st.subheader("Portföy Dağılımı")
         fig_pie = px.pie(
-            df, 
-            values="Toplam_Deger", 
-            names="Sembol", 
-            title="Cüzdanın Hangi Coinlerden Oluşuyor?",
-            hole=0.4
+            df, values="Toplam_Deger", names="Sembol",
+            title="Cüzdanın Hangi Coinlerden Oluşuyor?", hole=0.4
         )
         st.plotly_chart(fig_pie, use_container_width=True)
 
     st.markdown("---")
-    st.subheader(" Detaylı Teknik Analiz")
+    st.subheader("Detaylı Teknik Analiz")
     
     secilen_coin_analiz = st.selectbox("Grafiğini incelemek istediğin coini seç:", unique_semboller)
     
@@ -76,35 +70,26 @@ if not df.empty:
         
         if tarihsel_veri is not None and not tarihsel_veri.empty:
             fig_candle = go.Figure(data=[go.Candlestick(
-                x=tarihsel_veri.index,
-                open=tarihsel_veri['Open'],
-                high=tarihsel_veri['High'],
-                low=tarihsel_veri['Low'],
-                close=tarihsel_veri['Close'],
-                name=secilen_coin_analiz
+                x=tarihsel_veri.index, open=tarihsel_veri['Open'],
+                high=tarihsel_veri['High'], low=tarihsel_veri['Low'],
+                close=tarihsel_veri['Close'], name=secilen_coin_analiz
             )])
             
             fig_candle.update_layout(
                 title=f"{secilen_coin_analiz} Fiyat Grafiği ({zaman_araligi})",
-                yaxis_title="Fiyat ($)",
-                xaxis_rangeslider_visible=False,
-                template="plotly_dark"
+                yaxis_title="Fiyat ($)", xaxis_rangeslider_visible=False, template="plotly_dark"
             )
-            
             st.plotly_chart(fig_candle, use_container_width=True)
 
-    with st.expander("📄 İşlem Geçmişi"):
+    with st.expander("İşlem Geçmişi"):
         st.dataframe(df.style.format({
-            "Guncel_Birim_Fiyat": "${:.2f}",
-            "Toplam_Deger": "${:.2f}",
-            "Maliyet_Tutari": "${:.2f}",
-            "Kar_Zarar": "${:.2f}",
-            "ROI_Yuzde": "%{:.2f}"
+            "Guncel_Birim_Fiyat": "${:.2f}", "Toplam_Deger": "${:.2f}",
+            "Maliyet_Tutari": "${:.2f}", "Kar_Zarar": "${:.2f}", "ROI_Yuzde": "%{:.2f}"
         }), use_container_width=True)
         
         if st.button("Tüm Portföyü Sıfırla (Dikkat!)"):
-            verileri_sifirla()
+            verileri_sifirla(st.session_state['kullanici'])
             st.rerun()
 
 else:
-    st.info("⚠️ Henüz portföyünde coin yok. Sol menüden 'Ekle' sayfasına gidip ilk yatırımını ekle!")
+    st.info("Henüz portföyünde coin yok. Sol menüden 'Ekle' sayfasına gidip ilk yatırımını ekleyebilirsin!")

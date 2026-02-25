@@ -1,23 +1,18 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="Yatırım Pro",
-    page_icon="🚀",
-    layout="wide"
-)
 
-st.title("🚀 Yatırım Takip Sistemi v1.1")
+st.set_page_config(page_title="Yatırım Pro", layout="wide", initial_sidebar_state="collapsed")
 
-st.markdown("""
-### Hoşgeldiniz!
-Bu proje, yatırımlarınızı profesyonel bir şekilde takip etmeniz için geliştirilmiştir.
+if 'kullanici' not in st.session_state:
+    st.session_state['kullanici'] = None
 
-**Sol taraftaki menüyü kullanarak:**
-1. **➕ Ekle:** Yeni aldığınız kripto paraları kaydedin.
-2. **📈 Portföyüm:** Canlı kar/zarar durumunuzu ve grafiklerinizi inceleyin.
+login_page = st.Page("views/login.py", title="Giriş Yap")
+ekle_page = st.Page("views/Ekle.py", title="Ekle")
+portfoy_page = st.Page("views/Portfoyum.py", title="Portföyüm")
 
----
-*Geliştirici: Emre Sert*
-""")
+if st.session_state['kullanici'] is None:
+    pg = st.navigation([login_page])
+else:
+    pg = st.navigation([ekle_page, portfoy_page])
 
-st.info("Başlamak için soldaki menüden bir sayfa seçin.")
+pg.run()
